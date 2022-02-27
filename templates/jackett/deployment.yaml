@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+  labels:
+    {{- include "helm-mediaserver.labels" . | nindent 4 }}
+    app.kubernetes.io/component: jackett
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "helm-mediaserver.labels" . | nindent 6 }}
+      app.kubernetes.io/component: jackett
+  template:
+    metadata:
+      labels:
+        {{- include "helm-mediaserver.labels" . | nindent 8 }}
+        app.kubernetes.io/component: jackett
+    spec:
+      containers:
+        - name: jackett
+          image: {{ include "helm-mediaserver.image" .Values.jackett }}
+          imagePullPolicy: {{ include "helm-mediaserver.imagePullPolicy" .Values.jackett }}
+          ports:
+            - name: http
+              containerPort: 9117
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          emptyDir: {}

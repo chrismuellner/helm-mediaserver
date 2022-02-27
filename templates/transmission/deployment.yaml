@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  labels:
+    {{- include "helm-mediaserver.labels" . | nindent 4 }}
+    app.kubernetes.io/component: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "helm-mediaserver.labels" . | nindent 6 }}
+      app.kubernetes.io/component: transmission
+  template:
+    metadata:
+      labels:
+        {{- include "helm-mediaserver.labels" . | nindent 8 }}
+        app.kubernetes.io/component: transmission
+    spec:
+      containers:
+        - name: transmission
+          image: {{ include "helm-mediaserver.image" .Values.transmission }}
+          imagePullPolicy: {{ include "helm-mediaserver.imagePullPolicy" .Values.transmission }}
+          ports:
+            - name: http
+              containerPort: 9091
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: config
+              mountPath: /data/transmission-home
+            - name: data-complete
+              mountPath: /data/completed
+            - name: data-incomplete
+              mountPath: /data/incomplete
+      volumes:
+        - name: config
+          emptyDir: {}
+      volumes:
+        - name: data-complete
+          emptyDir: {}
+      volumes:
+        - name: data-incomplete
+          emptyDir: {}

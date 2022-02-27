@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  labels:
+    {{- include "helm-mediaserver.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "helm-mediaserver.labels" . | nindent 6 }}
+      app.kubernetes.io/component: sonarr
+  template:
+    metadata:
+      labels:
+        {{- include "helm-mediaserver.labels" . | nindent 8 }}
+        app.kubernetes.io/component: sonarr
+    spec:
+      containers:
+        - name: sonarr
+          image: {{ include "helm-mediaserver.image" .Values.sonarr }}
+          imagePullPolicy: {{ include "helm-mediaserver.imagePullPolicy" .Values.sonarr }}
+          ports:
+            - name: http
+              containerPort: 8989
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: config
+          emptyDir: {}
+      volumes:
+        - name: data
+          emptyDir: {}

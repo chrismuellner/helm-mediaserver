@@ -1,0 +1,17 @@
+
+
+paths:
+  data: ./data
+  config: ./config
+
+jackett:
+  image: "linuxserver/jackett"
+  tag: ""
+
+transmission:
+  image: "haugene/transmission-openvpn"
+  tag: "3.7.1"
+
+sonarr:
+  image: "linuxserver/sonarr"
+  tag: ""
