@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: transmission
-          image: {{ include "helm-mediaserver.image" .Values.transmission }}
+          image: {{ printf "%s:%s" (ternary "haugene/transmission-openvpn" "linuxserver/transmission" .Values.transmission.vpn) (default "latest" .Values.transmission.tag) }}
           imagePullPolicy: {{ include "helm-mediaserver.imagePullPolicy" .Values.transmission }}
           ports:
             - name: http
@@ -34,18 +34,25 @@ spec:
               path: /
               port: http
           volumeMounts:
+            {{- if .Values.transmission.vpn -}}
             - name: config
               mountPath: /data/transmission-home
             - name: data-complete
               mountPath: /data/completed
             - name: data-incomplete
               mountPath: /data/incomplete
+            {{ else }}
+            - name: config
+              mountPath: /config
+            - name: data-complete
+              mountPath: /downloads
+            - name: data-incomplete
+              mountPath: /watch
+            {{ end }}
       volumes:
         - name: config
           emptyDir: {}
-      volumes:
         - name: data-complete
           emptyDir: {}
-      volumes:
         - name: data-incomplete
           emptyDir: {}

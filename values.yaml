@@ -9,8 +9,8 @@ jackett:
   tag: ""
 
 transmission:
-  image: "haugene/transmission-openvpn"
-  tag: "3.7.1"
+  tag: ""
+  vpn: false
 
 sonarr:
   image: "linuxserver/sonarr"
