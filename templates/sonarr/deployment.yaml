@@ -35,11 +35,14 @@ spec:
               port: http
           volumeMounts:
             - name: config
+              subPath: sonarr
               mountPath: /config
             - name: data
               mountPath: /data
       volumes:
         - name: config
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: config-pv-claim
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: data-pv-claim

@@ -36,23 +36,32 @@ spec:
           volumeMounts:
             {{- if .Values.transmission.vpn -}}
             - name: config
+              subPath: transmission
               mountPath: /data/transmission-home
-            - name: data-complete
+            - name: data
+              subPath: torrents/completed
               mountPath: /data/completed
-            - name: data-incomplete
+            - name: data
+              subPath: torrents/incomplete
               mountPath: /data/incomplete
             {{ else }}
             - name: config
+              subPath: transmission
               mountPath: /config
-            - name: data-complete
-              mountPath: /downloads
-            - name: data-incomplete
+            - name: data
+              subPath: torrents/completed
+              mountPath: /downloads/complete
+            - name: data
+              subPath: torrents/incomplete
+              mountPath: /downloads/incomplete
+            - name: data
+              subPath: torrents/watch
               mountPath: /watch
             {{ end }}
       volumes:
         - name: config
-          emptyDir: {}
-        - name: data-complete
-          emptyDir: {}
-        - name: data-incomplete
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: config-pv-claim
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-pv-claim
