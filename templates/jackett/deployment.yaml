@@ -25,17 +25,19 @@ spec:
             - name: http
               containerPort: 9117
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
           volumeMounts:
             - name: config
+              subPath: jackett
               mountPath: /config
       volumes:
-        - name: config
-          emptyDir: {}
+      - name: config
+        persistentVolumeClaim:
+          claimName: config-pv-claim
