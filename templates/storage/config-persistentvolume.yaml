@@ -9,7 +9,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 100M
+    storage: {{ .Values.storage.config.capacity }}
   hostPath:
-    path: /mnt/config
+    path: {{ .Values.storage.config.path }}
     type: DirectoryOrCreate

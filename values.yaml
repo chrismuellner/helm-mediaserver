@@ -1,8 +1,12 @@
+# Default values
 
-
-paths:
-  data: ./data
-  config: ./config
+storage:
+  config:
+    capacity: 1Gi
+    path: /mnt/config
+  data:
+    capacity: 10Gi
+    path: /mnt/data
 
 jackett:
   image: "linuxserver/jackett"
