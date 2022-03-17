@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  labels:
+    {{- include "helm-mediaserver.labels" . | nindent 4 }}
+    app.kubernetes.io/component: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "helm-mediaserver.labels" . | nindent 6 }}
+      app.kubernetes.io/component: jellyfin
+  template:
+    metadata:
+      labels:
+        {{- include "helm-mediaserver.labels" . | nindent 8 }}
+        app.kubernetes.io/component: jellyfin
+    spec:
+      containers:
+        - name: jellyfin
+          image: {{ include "helm-mediaserver.image" .Values.jellyfin }}
+          imagePullPolicy: {{ include "helm-mediaserver.imagePullPolicy" .Values.jellyfin }}
+          ports:
+            - name: http
+              containerPort: 8096
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: config
+              subPath: jellyfin
+              mountPath: /config
+            - name: data
+              subPath: cache
+              mountPath: /cache
+            - name: data
+              subPath: media
+              mountPath: /media
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: config-pv-claim
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-pv-claim

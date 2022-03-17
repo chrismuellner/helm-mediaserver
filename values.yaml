@@ -19,3 +19,7 @@ transmission:
 sonarr:
   image: "linuxserver/sonarr"
   tag: ""
+
+jellyfin:
+  image: "jellyfin/jellyfin"
+  tag: ""
