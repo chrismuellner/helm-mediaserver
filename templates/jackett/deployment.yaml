@@ -33,6 +33,8 @@ spec:
           #   httpGet:
           #     path: /
           #     port: http
+          env:
+            {{- include "helm-mediaserver.basicEnvs" . | nindent 12 }}
           volumeMounts:
             - name: config
               subPath: jackett

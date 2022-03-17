@@ -34,12 +34,7 @@ spec:
               path: /
               port: http
           env:
-            - name: TZ
-              value: Europe/Vienna
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
+            {{- include "helm-mediaserver.basicEnvs" . | nindent 12 }}
             {{- if .Values.transmission.vpn.enabled }}
             - name: TRANSMISSION_WEB_UI
               value: {{ default "combustion" .Values.transmission.webui }}

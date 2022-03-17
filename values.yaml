@@ -8,6 +8,10 @@ storage:
     capacity: 10Gi
     path: /mnt/data
 
+timezone: ""
+puid: ""
+pgid: ""
+
 jackett:
   image: "linuxserver/jackett"
   tag: ""

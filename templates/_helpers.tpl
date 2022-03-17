@@ -44,3 +44,15 @@ Set imagePullPolicy depending on tag
 {{- print "IfNotPresent" }}
 {{- end }}
 {{- end }}
+
+{{/*
+Set basic environment variables
+*/}}
+{{- define "helm-mediaserver.basicEnvs" -}}
+- name: TZ
+  value: {{ (default "Europe/London" .Values.timezone) | quote }}
+- name: PUID
+  value: {{ (default "1000" .Values.puid) | quote }}
+- name: PGID
+  value: {{ (default "1000" .Values.pgid) | quote }}
+{{- end }}
