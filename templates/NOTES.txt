@@ -1,0 +1,5 @@
+{{ if .Values.transmission.vpn.enabled }}
+Using transmission with integrated VPN!
+{{ else }}
+VPN is disabled!
+{{ end }}

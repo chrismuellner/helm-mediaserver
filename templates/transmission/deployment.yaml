@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: transmission
-          image: {{ printf "%s:%s" (ternary "haugene/transmission-openvpn" "linuxserver/transmission" .Values.transmission.vpn) (default "latest" .Values.transmission.tag) }}
+          image: {{ printf "%s:%s" (ternary "haugene/transmission-openvpn" "linuxserver/transmission" .Values.transmission.vpn.enabled) (default "latest" .Values.transmission.tag) }}
           imagePullPolicy: {{ include "helm-mediaserver.imagePullPolicy" .Values.transmission }}
           ports:
             - name: http
@@ -33,8 +33,37 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+            - name: TZ
+              value: Europe/Vienna
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            {{- if .Values.transmission.vpn.enabled }}
+            - name: TRANSMISSION_WEB_UI
+              value: {{ default "combustion" .Values.transmission.webui }}
+            - name: OPENVPN_PROVIDER
+              value: {{ required "openvpn provider is required to use VPN" .Values.transmission.vpn.credentials.provider }}
+            - name: OPENVPN_CONFIG
+              value: {{ required "openvpn config is required to use VPN" .Values.transmission.vpn.credentials.config }}
+            - name: OPENVPN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: transmission-vpncredentials
+                  key: username
+            - name: OPENVPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: transmission-vpncredentials
+                  key: password
+            # - name: LOCAL_NETWORK
+            #   value: 192.168.0.0/16
+            - name: OPENVPN_OPTS
+              value: --inactive 3600 --ping 10 --ping-exit 60
+            {{ end }}
           volumeMounts:
-            {{- if .Values.transmission.vpn -}}
+            {{- if .Values.transmission.vpn.enabled }}
             - name: config
               subPath: transmission
               mountPath: /data/transmission-home
@@ -44,7 +73,7 @@ spec:
             - name: data
               subPath: torrents/incomplete
               mountPath: /data/incomplete
-            {{ else }}
+            {{- else }}
             - name: config
               subPath: transmission
               mountPath: /config
@@ -58,6 +87,18 @@ spec:
               subPath: torrents/watch
               mountPath: /watch
             {{ end }}
+          {{- if .Values.transmission.vpn.enabled }}
+          securityContext:
+            capabilities:
+              add: 
+                - "NET_ADMIN"
+          {{ end }}
+      # {{- if and .Values.transmission.vpn.enabled (eq .Values.transmission.vpn.credentials.provider "mullvad") }}
+      # securityContext:
+      #   sysctls:
+      #     - name: net.ipv6.conf.all.disable_ipv6
+      #       value: "0"
+      # {{ end }}
       volumes:
         - name: config
           persistentVolumeClaim:

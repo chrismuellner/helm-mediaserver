@@ -14,7 +14,14 @@ jackett:
 
 transmission:
   tag: ""
-  vpn: false
+  webui: "combustion"
+  vpn:
+    enabled: false
+    credentials:
+      provider: ""
+      config: ""
+      username: ""
+      password: ""
 
 sonarr:
   image: "linuxserver/sonarr"
