@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/component: transmission
 spec:
   ports:
-  - port: 9091
+  - port: 80
     targetPort: 9091
   selector:
     {{- include "helm-mediaserver.labels" . | nindent 4 }}

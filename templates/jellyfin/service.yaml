@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/component: jellyfin
 spec:
   ports:
-  - port: 8096
+  - port: 80
     targetPort: 8096
   selector:
     {{- include "helm-mediaserver.labels" . | nindent 4 }}

@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/component: sonarr
 spec:
   ports:
-  - port: 8989
+  - port: 80
     targetPort: 8989
   selector:
     {{- include "helm-mediaserver.labels" . | nindent 4 }}

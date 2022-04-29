@@ -1,0 +1,23 @@
+{{- if (.Values.nginx).enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-jackett
+  labels:
+    {{- include "helm-mediaserver.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /jackett(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: jackett
+            port: 
+              number: 9117
+  ingressClassName: nginx
+{{ end }}

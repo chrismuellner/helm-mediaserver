@@ -1,5 +1,4 @@
 # Default values
-
 storage:
   config:
     capacity: 1Gi
@@ -11,6 +10,9 @@ storage:
 timezone: ""
 puid: ""
 pgid: ""
+
+nginx:
+  enabled: false
 
 jackett:
   image: "linuxserver/jackett"

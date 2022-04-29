@@ -1,5 +1,11 @@
-{{ if .Values.transmission.vpn.enabled }}
+{{- if ((.Values.transmission).vpn).enabled }}
 Using transmission with integrated VPN!
-{{ else }}
+{{- else }}
 VPN is disabled!
-{{ end }}
+{{- end }}
+
+{{- if (.Values.nginx).enabled }}
+Using nginx to handle ingress!
+{{- else }}
+No ingress controller defined.
+{{- end }}
