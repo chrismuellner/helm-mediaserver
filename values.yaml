@@ -34,6 +34,10 @@ sonarr:
   image: "linuxserver/sonarr"
   tag: ""
 
+radarr:
+  image: "linuxserver/radarr"
+  tag: ""
+
 jellyfin:
   image: "jellyfin/jellyfin"
   tag: ""

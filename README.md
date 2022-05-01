@@ -17,9 +17,11 @@
 3. Modify base paths correctly when using ingress controller
     - Set `BasePathOverride` to `/jackett` in `config/jackett/Jackett/ServerConfig.json`
     - Set `UrlBase` to `/sonarr` in `config/sonarr/config.xml`
+    - Set `UrlBase` to `/radarr` in `config/radarr/config.xml`
 4. Components can be accessed
     - jackett: `<host>/jackett` (e.g. `media.local/jackett`)
     - transmission: `<host>/transmission` (e.g. `media.local/transmission`)
     - sonarr: `<host>/sonarr` (e.g. `media.local/sonarr`)
+    - radarr: `<host>/radarr` (e.g. `media.local/radarr`)
     - jellyfin: `<host>` (e.g. `media.local`)
 5. Finish configuration via Web UI
