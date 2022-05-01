@@ -13,6 +13,7 @@ pgid: ""
 
 nginx:
   enabled: false
+  host: ""
 
 jackett:
   image: "linuxserver/jackett"

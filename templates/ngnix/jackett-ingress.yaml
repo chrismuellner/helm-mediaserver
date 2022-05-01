@@ -6,18 +6,17 @@ metadata:
   labels:
     {{- include "helm-mediaserver.labels" . | nindent 4 }}
     app.kubernetes.io/component: ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-  - http:
+  - host: {{ .Values.nginx.host }}
+    http:
       paths:
-      - path: /jackett(/|$)(.*)
+      - path: /jackett
         pathType: Prefix
         backend:
           service:
             name: jackett
             port: 
-              number: 9117
+              number: 80
   ingressClassName: nginx
 {{ end }}
