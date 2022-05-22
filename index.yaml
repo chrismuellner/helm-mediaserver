@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   helm-mediaserver:
   - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2022-05-22T20:35:36.610712911Z"
+    description: A Helm chart to deploy a mediaserver
+    digest: 7b32e6c77c1f9b28bdf757fba2da150c2fb34f88005bbe434c4852fae4481d24
+    name: helm-mediaserver
+    type: application
+    urls:
+    - https://github.com/chrismuellner/helm-mediaserver/releases/download/helm-mediaserver-0.1.1/helm-mediaserver-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.1.0
     created: "2022-05-22T14:52:20.991302207Z"
     description: A Helm chart to deploy a mediaserver
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/chrismuellner/helm-mediaserver/releases/download/helm-mediaserver-0.1.0/helm-mediaserver-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-22T14:52:20.991309407Z"
+generated: "2022-05-22T20:35:36.610719911Z"
