@@ -45,12 +45,12 @@ spec:
             - name: OPENVPN_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: transmission-vpncredentials
+                  name: {{ default "transmission-vpncredentials" .Values.transmission.vpn.secret }}
                   key: username
             - name: OPENVPN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: transmission-vpncredentials
+                  name: {{ default "transmission-vpncredentials" .Values.transmission.vpn.secret }}
                   key: password
             # - name: LOCAL_NETWORK
             #   value: 192.168.0.0/16

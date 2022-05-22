@@ -24,6 +24,7 @@ transmission:
   webui: "combustion"
   vpn:
     enabled: false
+    secret: ""
     credentials:
       provider: ""
       config: ""
