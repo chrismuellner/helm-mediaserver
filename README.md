@@ -6,14 +6,29 @@
 - Enough disk space on the host (11Gb with default configuration)
 - Nothing bound on port 443 (e.g. traefik)
 
+## Components
+
+```mermaid
+graph TD;
+    transmission(Transmission)
+    jackett(Jackett)
+    sonarr(Sonarr)
+    radarr(Radarr)
+    jellyfin(Jellyfin)
+
+    sonarr-->jackett;
+    radarr-->jackett;
+    sonarr-->transmission;
+    radarr-->transmission;
+```
+
 ## Setup
 
-1. Create override values file
-    - Set `nginx.host` to valid domain (e.g. `media.local`)
+1. Add helm repository
+    - `helm repo add mediaserver https://muellner.dev/helm-mediaserver/`
 2. Install the Helm Chart
-    ```sh
-    helm install mediaserver . -f <custom-values.yaml>
-    ```
+    - Set `nginx.host` to valid domain (e.g. `media.local`)
+    - `helm install mediaserver mediaserver/helm-mediaserver -f <custom-values.yaml>`
 3. Modify base paths correctly when using ingress controller
     - Set `BasePathOverride` to `/jackett` in `config/jackett/Jackett/ServerConfig.json`
     - Set `UrlBase` to `/sonarr` in `config/sonarr/config.xml`
